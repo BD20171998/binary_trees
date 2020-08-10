@@ -2,6 +2,7 @@
 /*
 https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-006-introduction-to-algorithms-fall-2011/lecture-videos/MIT6_006F11_lec04.pdf
 http://www.crazyforcode.com/heap-data-structure/
+http://www.firmcodes.com/write-printf-function-c/
 */
 
 char *convert(unsigned long int num, int base)
@@ -41,26 +42,24 @@ size_t binary_tree_size(const binary_tree_t *tree)
 	return (size);
 }
 
-void heapify(heap_t *node, int value)
+heap_t *heapify(heap_t *node, int value)
 {
 	heap_t *temp;
 
 	temp = node;
 
 	if (temp->parent == NULL)
-		return;
+		return temp;
 
 	if (node->n > node->parent->n)
 	{
-		node->n =  node->parent->n;
+		node->n = node->parent->n;
 		node->parent->n = value;
 		temp = node->parent;
-	
 		heapify(temp, value);
 	}
 
-	else
-		return;
+	return temp;
 }
 
 
@@ -70,6 +69,7 @@ heap_t *heap_insert(heap_t **root, int value)
 	heap_t *temp;
 	unsigned long int i;
 	size_t size;
+
 	if (root == NULL || *root == NULL)
 	{
 		*root = (binary_tree_node(NULL, value));
@@ -78,10 +78,9 @@ heap_t *heap_insert(heap_t **root, int value)
 
 	temp = *root;
 	size =  binary_tree_size(temp) + 1;
+	ptr = convert(size, 2);
 
-		ptr = convert(size, 2);
-
-	for (i = 1; i < strlen(ptr) -1; ++i)
+	for (i = 1; i < strlen(ptr) - 1; ++i)
 	{
 		if (ptr[i] == '1')
 			temp = temp->right;
@@ -93,13 +92,13 @@ heap_t *heap_insert(heap_t **root, int value)
 	if (ptr[i] == '1')
 	{
 		temp->right = binary_tree_node(temp, value);
-		heapify(temp->right, value);
-		return temp->right;
+		return heapify(temp->right, value);
+		/*	return temp->right;*/
 	}
 	else
 	{
 		temp->left =  binary_tree_node(temp, value);
-		heapify(temp->left, value);
-		return temp->left;
+		return heapify(temp->left, value);
+		/*return temp->left;*/
 	}
 }
