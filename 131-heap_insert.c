@@ -1,9 +1,12 @@
 #include "binary_trees.h"
-/*
-https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-006-introduction-to-algorithms-fall-2011/lecture-videos/MIT6_006F11_lec04.pdf
-http://www.crazyforcode.com/heap-data-structure/
-http://www.firmcodes.com/write-printf-function-c/
-*/
+
+/**
+ * convert - function that ids nodes of a binary tree
+ * @num: unsigned long int of number to be converted to binary string
+ * @base: int of base 2
+ * http://www.firmcodes.com/write-printf-function-c/
+ * Return: Char pointer of binary string for number passed
+ */
 
 char *convert(unsigned long int num, int base)
 {
@@ -13,13 +16,13 @@ char *convert(unsigned long int num, int base)
 
 	rep = "0123456789";
 	ptr = &buffer[32];
-	*ptr=0;
-	do{
-		*--ptr=rep[num%base];
-		num/=base;
-	   }while(num);
+	*ptr = 0;
+	do {
+		*--ptr = rep[num % base];
+		num /= base;
+	} while (num);
 
-	return(ptr);
+	return (ptr);
 }
 
 /**
@@ -42,14 +45,26 @@ size_t binary_tree_size(const binary_tree_t *tree)
 	return (size);
 }
 
+/**
+ * heapify - function that ensures subtrees maintain max heap property
+ * @node: heap_t node to be moved in tree as needed in order to preserve
+ * max heap
+ * http://www.crazyforcode.com/heap-data-structure/
+ * https://ocw.mit.edu/courses/electrical-engineering-and-computer-science
+ * /6-006-introduction-to-algorithms-fall-2011/lecture-videos/
+ * /MIT6_006F11_lec04.pdf
+ * Return: returns newly created heap_t node after heapify process
+ */
+
 heap_t *heapify(heap_t *node)
 {
 	heap_t *temp;
 	int value;
+
 	temp = node;
 
 	if (temp->parent == NULL)
-		return temp;
+		return (temp);
 
 	if (temp->n > temp->parent->n)
 	{
@@ -57,12 +72,18 @@ heap_t *heapify(heap_t *node)
 		temp->n = temp->parent->n;
 		temp->parent->n = value;
 		temp = temp->parent;
-		return heapify(temp);
+		return (heapify(temp));
 	}
 
-	return temp;
+	return (temp);
 }
 
+/**
+ * heap_insert - function that inserts a value in Max Binary Heap
+ * @root: double pointer to the root node of the Heap to insert the value
+ * @value: value to store in the node to be inserted
+ * Return: newly created heap_t node or NULL on failure
+ */
 
 heap_t *heap_insert(heap_t **root, int value)
 {
@@ -74,7 +95,7 @@ heap_t *heap_insert(heap_t **root, int value)
 	if (root == NULL || *root == NULL)
 	{
 		*root = (binary_tree_node(NULL, value));
-		return *root;
+		return (*root);
 	}
 
 	temp = *root;
@@ -93,11 +114,11 @@ heap_t *heap_insert(heap_t **root, int value)
 	if (ptr[i] == '1')
 	{
 		temp->right = binary_tree_node(temp, value);
-		return heapify(temp->right);
+		return (heapify(temp->right));
 	}
 	else
 	{
 		temp->left =  binary_tree_node(temp, value);
-		return heapify(temp->left);
+		return (heapify(temp->left));
 	}
 }
