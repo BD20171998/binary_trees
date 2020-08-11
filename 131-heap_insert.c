@@ -42,21 +42,22 @@ size_t binary_tree_size(const binary_tree_t *tree)
 	return (size);
 }
 
-heap_t *heapify(heap_t *node, int value)
+heap_t *heapify(heap_t *node)
 {
 	heap_t *temp;
-
+	int value;
 	temp = node;
 
 	if (temp->parent == NULL)
 		return temp;
 
-	if (node->n > node->parent->n)
+	if (temp->n > temp->parent->n)
 	{
-		node->n = node->parent->n;
-		node->parent->n = value;
-		temp = node->parent;
-		heapify(temp, value);
+		value = temp->n;
+		temp->n = temp->parent->n;
+		temp->parent->n = value;
+		temp = temp->parent;
+		return heapify(temp);
 	}
 
 	return temp;
@@ -92,13 +93,11 @@ heap_t *heap_insert(heap_t **root, int value)
 	if (ptr[i] == '1')
 	{
 		temp->right = binary_tree_node(temp, value);
-		return heapify(temp->right, value);
-		/*	return temp->right;*/
+		return heapify(temp->right);
 	}
 	else
 	{
 		temp->left =  binary_tree_node(temp, value);
-		return heapify(temp->left, value);
-		/*return temp->left;*/
+		return heapify(temp->left);
 	}
 }
