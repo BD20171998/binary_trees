@@ -63,10 +63,10 @@ heap_t *trickle_down(heap_t *node)
 	int value;
 
 	temp = node;
-/*	if (temp->left == NULL && temp->right == NULL)
+	if (temp->left == NULL && temp->right == NULL)
 		return (temp);
-*/
-	if (temp->n < temp->right->n && temp->left->n > temp->right->n)
+
+	if (temp->n < temp->left->n && temp->left->n > temp->right->n)
 	{
 		value = temp->n;
 		temp->n = temp->left->n;
@@ -75,7 +75,7 @@ heap_t *trickle_down(heap_t *node)
 		return (trickle_down(temp));
 	}
 
-	if (temp->n < temp->left->n && temp->right->n > temp->left->n)
+	if (temp->n < temp->right->n && temp->right->n > temp->left->n)
 	{
 		value = temp->n;
 		temp->n = temp->right->n;
