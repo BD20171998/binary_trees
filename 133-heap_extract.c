@@ -66,10 +66,11 @@ heap_t *trickle_down(heap_t *node)
 	if (temp->left == NULL && temp->right == NULL)
 		return (NULL);
 
-	if (temp->n > temp->left->n && temp->right == NULL)
+	if (temp->left && temp->n > temp->left->n && temp->right == NULL)
 		return (NULL);
 
-	if (temp->n < temp->left->n && temp->left->n > temp->right->n)
+	if (temp->left && temp->n < temp->left->n &&
+	    (!temp->right || temp->left->n > temp->right->n))
 	{
 		value = temp->n;
 		temp->n = temp->left->n;
@@ -78,7 +79,8 @@ heap_t *trickle_down(heap_t *node)
 		return (trickle_down(temp));
 	}
 
-	if (temp->n < temp->right->n && temp->right->n > temp->left->n)
+	if (temp->right && temp->n < temp->right->n &&
+	    (!temp->left || temp->right->n > temp->left->n))
 	{
 
 		value = temp->n;
@@ -119,6 +121,12 @@ int heap_extract(heap_t **root)
 			temp = temp->left;
 
 	extracted = (*root)->n;
+
+	if (size == 1)
+	{
+		*root = (free(*root), NULL);
+		return (extracted);
+	}
 
 	if (ptr[i] == '1')
 	{
