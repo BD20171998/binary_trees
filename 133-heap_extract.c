@@ -123,24 +123,19 @@ int heap_extract(heap_t **root)
 	extracted = (*root)->n;
 
 	if (size == 1)
-	{
-		*root = (free(*root), NULL);
-		return (extracted);
-	}
+		return (*root = (free(*root), NULL), extracted);
 
 	if (ptr[i] == '1')
 	{
 		(*root)->n = temp->right->n;
-		free(temp->right);
-		temp->right = NULL;
+		temp->right = (free(temp->right), NULL);
 		trickle_down(*root);
 		return (extracted);
 	}
 	else
 	{
 		(*root)->n = temp->left->n;
-		free(temp->left);
-		temp->left = NULL;
+		temp->left = (free(temp->left), NULL);
 		trickle_down(*root);
 		return (extracted);
 	}
