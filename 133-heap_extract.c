@@ -60,32 +60,42 @@ size_t binary_tree_size2(const binary_tree_t *tree)
 heap_t *trickle_down(heap_t *node)
 {
 	heap_t *temp;
-	int value;
-
+		int value;
 	temp = node;
+	printf("node is %d\n", temp->n);
+/*
+	if (temp->parent == NULL)
+		return NULL;
+*/
 	if (temp->left == NULL && temp->right == NULL)
-		return (temp);
+		return NULL;
+
+	if (temp->n > temp->left->n && temp->right ==NULL)
+		return NULL;
 
 	if (temp->n < temp->left->n && temp->left->n > temp->right->n)
 	{
+/*		printf("Before swap temp is %d---temp left is %d \n",temp->n, temp->left->n);
+ */
 		value = temp->n;
 		temp->n = temp->left->n;
 		temp->left->n = value;
 		temp = temp->left;
-		return (trickle_down(temp));
+	return trickle_down(temp);
 	}
 
 	if (temp->n < temp->right->n && temp->right->n > temp->left->n)
 	{
+
 		value = temp->n;
 		temp->n = temp->right->n;
 		temp->right->n = value;
 		temp = temp->right;
-		return (trickle_down(temp));
+	return trickle_down(temp);
 	}
-
-	return (temp);
+	return NULL;
 }
+
 
 /**
  * heap_extract - function that extracts the root node of a Max Binary Heap
@@ -96,9 +106,10 @@ heap_t *trickle_down(heap_t *node)
 int heap_extract(heap_t **root)
 {
 	char *ptr;
-	heap_t *temp;
+	heap_t *temp, *temp2;
 	unsigned long int i;
 	size_t size;
+	int extracted;
 
 	if (root == NULL || *root == NULL)
 		return (0);
@@ -115,19 +126,29 @@ int heap_extract(heap_t **root)
 			temp = temp->left;
 	}
 
+	extracted = (*root)->n;
+
 	if (ptr[i] == '1')
 	{
 		(*root)->n = temp->right->n;
 		free(temp->right);
 		temp->right = NULL;
-		trickle_down(*root);
+		temp2 = trickle_down(*root);
+	if(temp2==NULL)
+		printf("I am done\n");
+		return (extracted);
 	}
 	else
 	{
 		(*root)->n = temp->left->n;
 		free(temp->left);
 		temp->left = NULL;
-		trickle_down(*root);
+	temp2 = trickle_down(*root);
+	if(temp2==NULL)
+		printf("I am not done\n");
+		return (extracted);
 	}
+
+
 	return (0);
 }
