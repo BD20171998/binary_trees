@@ -62,26 +62,20 @@ heap_t *trickle_down(heap_t *node)
 	heap_t *temp;
 		int value;
 	temp = node;
-	printf("node is %d\n", temp->n);
-/*
-	if (temp->parent == NULL)
-		return NULL;
-*/
-	if (temp->left == NULL && temp->right == NULL)
-		return NULL;
 
-	if (temp->n > temp->left->n && temp->right ==NULL)
-		return NULL;
+	if (temp->left == NULL && temp->right == NULL)
+		return (NULL);
+
+	if (temp->n > temp->left->n && temp->right == NULL)
+		return (NULL);
 
 	if (temp->n < temp->left->n && temp->left->n > temp->right->n)
 	{
-/*		printf("Before swap temp is %d---temp left is %d \n",temp->n, temp->left->n);
- */
 		value = temp->n;
 		temp->n = temp->left->n;
 		temp->left->n = value;
 		temp = temp->left;
-	return trickle_down(temp);
+		return (trickle_down(temp));
 	}
 
 	if (temp->n < temp->right->n && temp->right->n > temp->left->n)
@@ -91,9 +85,9 @@ heap_t *trickle_down(heap_t *node)
 		temp->n = temp->right->n;
 		temp->right->n = value;
 		temp = temp->right;
-	return trickle_down(temp);
+		return (trickle_down(temp));
 	}
-	return NULL;
+	return (NULL);
 }
 
 
@@ -106,7 +100,7 @@ heap_t *trickle_down(heap_t *node)
 int heap_extract(heap_t **root)
 {
 	char *ptr;
-	heap_t *temp, *temp2;
+	heap_t *temp;
 	unsigned long int i;
 	size_t size;
 	int extracted;
@@ -119,12 +113,10 @@ int heap_extract(heap_t **root)
 	ptr = convert2(size, 2);
 
 	for (i = 1; i < strlen(ptr) - 1; ++i)
-	{
 		if (ptr[i] == '1')
 			temp = temp->right;
 		else
 			temp = temp->left;
-	}
 
 	extracted = (*root)->n;
 
@@ -133,9 +125,7 @@ int heap_extract(heap_t **root)
 		(*root)->n = temp->right->n;
 		free(temp->right);
 		temp->right = NULL;
-		temp2 = trickle_down(*root);
-	if(temp2==NULL)
-		printf("I am done\n");
+		trickle_down(*root);
 		return (extracted);
 	}
 	else
@@ -143,12 +133,8 @@ int heap_extract(heap_t **root)
 		(*root)->n = temp->left->n;
 		free(temp->left);
 		temp->left = NULL;
-	temp2 = trickle_down(*root);
-	if(temp2==NULL)
-		printf("I am not done\n");
+		trickle_down(*root);
 		return (extracted);
 	}
-
-
 	return (0);
 }
