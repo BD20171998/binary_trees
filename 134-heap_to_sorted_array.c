@@ -35,6 +35,9 @@ int *heap_to_sorted_array(heap_t *heap, size_t *size)
 	size_t i;
 	size_t *length = size;
 
+	if (heap == NULL)
+		return (NULL);
+
 	*length = tree_size(heap);
 
 	sorted  = malloc(sizeof(int) * (*length));
