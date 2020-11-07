@@ -411,5 +411,8 @@ Properties of a Max Binary Heap:
   - Searching for a node in a binary heap of size n
 
 </details>
+
 ## Authors
-[Travis Bearden](https://github.com/Beardocracy) | [Robert Deprizio](https://github.com/BD20171998) | [Raudo Rivas](https://github.com/RaudoR)
+- **Travis Bearden** (https://github.com/Beardocracy) 
+- **Robert Deprizio** (https://github.com/BD20171998) 
+- **Raudo Rivas** (https://github.com/RaudoR)
